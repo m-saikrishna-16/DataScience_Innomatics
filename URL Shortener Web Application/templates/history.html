@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Shortify • URL History</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" />
+
+  <style>
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top right, #764ba2, #1e1e3f, #000);
+      font-family: 'Poppins', 'Segoe UI', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: absolute;
+      width: 420px;
+      height: 420px;
+      background: #6c63ff;
+      filter: blur(160px);
+      top: -120px;
+      left: -120px;
+      animation: floatGlow 10s infinite alternate;
+    }
+
+    body::after {
+      content: "";
+      position: absolute;
+      width: 380px;
+      height: 380px;
+      background: #00ffd5;
+      filter: blur(180px);
+      bottom: -140px;
+      right: -140px;
+      animation: floatGlow 12s infinite alternate-reverse;
+    }
+
+    @keyframes floatGlow {
+      from { transform: translate(0,0); }
+      to { transform: translate(80px,60px); }
+    }
+
+    .glass-card {
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(18px);
+      border-radius: 26px;
+      border: 1px solid rgba(255,255,255,0.25);
+      box-shadow:
+        0 0 40px rgba(108, 99, 255, 0.35),
+        0 0 80px rgba(0, 255, 213, 0.15);
+      position: relative;
+      z-index: 2;
+    }
+
+    h2 {
+      font-weight: 700;
+      background: linear-gradient(90deg, #fff, #a5b4fc);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .btn-back {
+      border-radius: 22px;
+      border: 1px solid #00ffd5;
+      color: #00ffd5;
+      padding: 6px 18px;
+      transition: 0.3s;
+    }
+
+    .btn-back:hover {
+      background: #00ffd5;
+      color: #000;
+    }
+
+    .table {
+      margin-top: 20px;
+      border-radius: 18px;
+      overflow: hidden;
+      background: rgba(0,0,0,0.35);
+    }
+
+    .table thead {
+      background: rgba(255,255,255,0.15);
+    }
+
+    .table thead th {
+      color: #e5e7ff;
+      border: none;
+      font-weight: 600;
+    }
+
+    .table tbody td {
+      border-color: rgba(255,255,255,0.08);
+      color: #e5e7ff;
+      vertical-align: middle;
+    }
+
+    .table-hover tbody tr:hover {
+      background: rgba(255,255,255,0.08);
+      transition: background 0.2s ease;
+    }
+
+    a {
+      color: #00ffd5;
+      text-decoration: none;
+      font-weight: 500;
+      word-break: break-all;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .empty-box {
+      background: rgba(0,0,0,0.4);
+      border-radius: 18px;
+      padding: 18px;
+      border: 1px solid rgba(255,255,255,0.2);
+      color: #d1d5ff;
+      text-align: center;
+      margin-top: 20px;
+    }
+
+    .footer {
+      text-align: center;
+      font-size: 12px;
+      color: rgba(255,255,255,0.6);
+      margin-top: 18px;
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container py-5">
+    <div class="row justify-content-center">
+      <div class="col-lg-10">
+
+        <div class="glass-card p-4">
+
+          <div class="d-flex justify-content-between align-items-center mb-3">
+            <h2 class="mb-0">📜 URL History</h2>
+            <a href="/" class="btn btn-back">← Back</a>
+          </div>
+
+          {% if urls %}
+          <div class="table-responsive">
+            <table class="table table-hover align-middle">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Original URL</th>
+                  <th>Short URL</th>
+                </tr>
+              </thead>
+              <tbody>
+                {% for url in urls %}
+                <tr>
+                  <td>{{ url.id }}</td>
+                  <td>
+                    <a href="{{ url.original_url }}" target="_blank">
+                      {{ url.original_url }}
+                    </a>
+                  </td>
+                  <td>
+                    <a href="{{ request.host_url }}{{ url.short_code }}" target="_blank">
+                      {{ request.host_url }}{{ url.short_code }}
+                    </a>
+                  </td>
+                </tr>
+                {% endfor %}
+              </tbody>
+            </table>
+          </div>
+          {% else %}
+          <div class="empty-box">
+            🚫 No URLs have been shortened yet.
+          </div>
+          {% endif %}
+
+          <div class="footer">
+            Shortify • Elegant link management ✨
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>
