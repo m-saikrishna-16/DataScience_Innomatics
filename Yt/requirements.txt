@@ -1,0 +1,8 @@
+streamlit
+python-dotenv
+fpdf
+langchain
+langchain-community
+langchain-core
+langchain-groq
+youtube-transcript-api
